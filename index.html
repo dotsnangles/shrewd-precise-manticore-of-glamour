@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>단편 소설 전람회</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header id="site-header">
+        <div class="header-content">
+            <h1 id="novel-title">Loading...</h1>
+            <p id="author-name"></p>
+            <p id="novel-description"></p>
+        </div>
+    </header>
+
+    <main id="app">
+        <!-- 리스트 화면 -->
+        <section id="list-view">
+            <ul id="manuscript-list">
+                <!-- script.js에서 config.json을 기반으로 생성 -->
+            </ul>
+        </section>
+
+        <!-- 열람 화면 -->
+        <section id="reader-view" class="hidden">
+            <nav class="reader-nav top">
+                <button id="back-to-list">목록</button>
+                <div class="font-controls">
+                    <button id="font-decrease" title="글자 작게">A-</button>
+                    <button id="font-increase" title="글자 크게">A+</button>
+                </div>
+                <h2 id="current-chapter-title"></h2>
+            </nav>
+            <article id="content-area">
+                <!-- 소설 내용 -->
+            </article>
+            <nav class="reader-nav bottom">
+                <button id="prev-chapter">이전 화</button>
+                <button id="next-chapter">다음 화</button>
+            </nav>
+        </section>
+    </main>
+
+    <footer id="site-footer">
+        <p id="footer-copy"></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
