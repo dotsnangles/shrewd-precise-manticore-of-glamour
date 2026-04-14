@@ -32,12 +32,36 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error('config.json not found');
             config = await response.json();
             
-            // Apply metadata
+            // Apply Basic Metadata
             document.title = config.novelTitle;
             novelTitleElem.textContent = config.novelTitle;
             authorNameElem.textContent = config.author;
             novelDescElem.textContent = config.description;
             footerCopyElem.textContent = `© ${new Date().getFullYear()} ${config.author}. All rights reserved.`;
+            
+            // Dynamic Meta Tag Sync
+            const metaMapping = {
+                'description': config.description,
+                'author': config.author,
+                'og:title': config.novelTitle,
+                'og:description': config.description,
+                'twitter:title': config.novelTitle,
+                'twitter:description': config.description
+            };
+
+            // Apply base mapping
+            Object.entries(metaMapping).forEach(([name, content]) => {
+                const attr = (name.startsWith('og:') || name.startsWith('fb:')) ? 'property' : 'name';
+                updateMetaTag(name, content, attr);
+            });
+
+            // Apply extended siteMetadata if available
+            if (config.siteMetadata) {
+                Object.entries(config.siteMetadata).forEach(([name, content]) => {
+                    const attr = (name.startsWith('og:') || name.startsWith('fb:')) ? 'property' : 'name';
+                    updateMetaTag(name, content, attr);
+                });
+            }
             
             renderList();
             handleInitialHash();
@@ -45,6 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Failed to load config:', error);
             manuscriptList.innerHTML = '<li style="color:red">설정 파일(config.json)을 불러오지 못했습니다.</li>';
         }
+    }
+
+    function updateMetaTag(name, content, attr = 'name') {
+        let meta = document.querySelector(`meta[${attr}="${name}"]`);
+        if (!meta) {
+            meta = document.createElement('meta');
+            meta.setAttribute(attr, name);
+            document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
     }
 
     function renderList() {
